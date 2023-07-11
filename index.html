@@ -3,9 +3,10 @@
 <head>
   <title>Manhattan Restrooms</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
     #map {
-      height: 600px;
+      height: 500px;
       width: 100%;
     }
   </style>
@@ -79,10 +80,11 @@
       width: 100%;
     }
     
-    .social-media-icon {
+    .chat-icon {
       color: #333;
       font-size: 24px;
       margin-left: 10px;
+      margin-left: 50px; /* Move the button 50 pixels to the left */
     }
   </style>
 </head>
@@ -104,17 +106,55 @@
   <!-- Main content -->
   <div class="content">
     <h1>Welcome the NYC Restroom Finder (Manhattan)</h1>
- <!-- Submission Form -->
     <style>
-    body {
-      background-color: teal; /* Set the background color outside the form */
+    .contact-form {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      height: 100vh;
+      border: 1px solid #ccc; /* Add a border to the form */
+      padding: 20px; /* Add padding inside the form */
+      border-radius: 5px; /* Add rounded corners to the form */
+      font-family: 'Quicksand', sans-serif; /* Set the font family for the form */
+      background-color: #fff; /* Set the background color inside the form */
+      max-width: 400px; /* Set the maximum width of the form */
+      width: 100%; /* Set the width to 100% of the available space */
     }
   
-    .location-form {
+    .contact-form label {
+      text-align: center; /* Center-align the labels */
+      display: flex; /* Align the label and checkbox on the same line */
+      align-items: center; /* Align items vertically within the label */
+    }
+  
+    .contact-form input[type="checkbox"] {
+      margin-left: 10px; /* Add margin between the label and checkbox */
+    }
+  </style>
+  
+  <form action="/submit" method="post" class="contact-form">
+    <h1>How Are We Doing?</h1> <!-- Display the form title -->
+  
+    <label for="first-name">First Name*</label><br> <!-- Prompt for the first name -->
+    <input type="text" id="first-name" name="first-name" required><br><br> <!-- Input field for the first name -->
+    
+    <label for="last-name">Last Name*</label><br> <!-- Prompt for the last name -->
+    <input type="text" id="last-name" name="last-name" required><br><br> <!-- Input field for the last name -->
+    
+    <label for="email">Email Address*</label><br> <!-- Prompt for the email address -->
+    <input type="email" id="email" name="email" required><br><br> <!-- Input field for the email address -->
+    
+    <label for="subscribe">
+      <span>Subscribe to Email Notifications</span> <!-- Prompt for subscribing to email notifications -->
+      <input type="checkbox" id="subscribe" name="subscribe"> <!-- Checkbox for subscribing to email notifications -->
+    </label><br><br>
+    
+    <label for="opinion">What Can We Improve On?</label><br> <!-- Prompt for feedback or suggestions -->
+    <textarea id="opinion" name="opinion" rows="8" cols="40"></textarea><br><br> <!-- Text area for feedback or suggestions -->
+    
+    <input type="submit" value="Submit"> <!-- Submit button to submit the form -->
+  </form>
+    <style>
+      .location-form {
     display: flex;
       flex-direction: column;
       align-items: center;
@@ -143,9 +183,8 @@
       width: 300px; /* Set the width of the textboxes */
       margin-bottom: 10px; /* Add space between inputs */
     }
-      
-   
-  </style> 
+  </style>
+  
   <form action="/submit" method="post" class="location-form">
     <h1>Found a Spot? Let Us Know!</h1>
   
@@ -165,8 +204,13 @@
     <input type="file" id="image" name="image"><br>
     
     <input type="submit" value="Submit">
-  </form> 
+  </form>
+    </style>
   </div>
+  
+  <!-- Footer <footer class="footer">
+    <a href="#" class="chat-icon"><i class="comments"></i></a>
+  </footer> -->
   
 </body>
 </html>
