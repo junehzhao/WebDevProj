@@ -3,20 +3,13 @@
 <head>
   <title>Manhattan Restrooms</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
   <style>
     #map {
       height: 500px;
       width: 100%;
     }
-  </style>
-</head>
-<body>
-  <div id="map"></div>
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="script.js"></script>
-  
-  <style>
+    
     /* Add CSS styles for the navigation bar */
     .navbar {
       background-color: #333;
@@ -86,9 +79,62 @@
       margin-left: 10px;
       margin-left: 50px; /* Move the button 50 pixels to the left */
     }
+    
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 5px;
+      font-family: 'Quicksand', sans-serif;
+      background-color: #fff;
+      max-width: 400px;
+      width: 100%;
+    }
+  
+    .contact-form label {
+      text-align: center;
+      display: flex;
+      align-items: center;
+    }
+  
+    .contact-form input[type="checkbox"] {
+      margin-left: 10px;
+    }
+    
+    .location-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 5px;
+      font-family: 'Quicksand', sans-serif;
+      background-color: #fff;
+      max-width: 400px;
+      width: 100%;
+    }
+  
+    .location-form label {
+      text-align: left;
+      margin-bottom: 10px;
+    }
+  
+    .location-form h1 {
+      text-align: center;
+    }
+  
+    .location-form input[type="text"],
+    .location-form input[type="number"],
+    .location-form input[type="file"] {
+      width: 300px;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
+   <script src="script.js"></script> 
   <!-- Navigation bar -->
   <div class="navbar">
     <div class="dropdown-menu">
@@ -105,112 +151,63 @@
   
   <!-- Main content -->
   <div class="content">
-    <h1>Welcome the NYC Restroom Finder (Manhattan)</h1>
-    <style>
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      border: 1px solid #ccc; /* Add a border to the form */
-      padding: 20px; /* Add padding inside the form */
-      border-radius: 5px; /* Add rounded corners to the form */
-      font-family: 'Quicksand', sans-serif; /* Set the font family for the form */
-      background-color: #fff; /* Set the background color inside the form */
-      max-width: 400px; /* Set the maximum width of the form */
-      width: 100%; /* Set the width to 100% of the available space */
-    }
+    <h1>Welcome to the NYC Restroom Finder (Manhattan)</h1>
   
-    .contact-form label {
-      text-align: center; /* Center-align the labels */
-      display: flex; /* Align the label and checkbox on the same line */
-      align-items: center; /* Align items vertically within the label */
-    }
+    <!-- Map -->
+    <div id="map"></div>
   
-    .contact-form input[type="checkbox"] {
-      margin-left: 10px; /* Add margin between the label and checkbox */
-    }
-  </style>
+    <!-- Contact Form -->
+    <form action="/submit" method="post" class="contact-form">
+      <h1>How Are We Doing?</h1>
   
-  <form action="/submit" method="post" class="contact-form">
-    <h1>How Are We Doing?</h1> <!-- Display the form title -->
+      <label for="first-name">First Name*</label><br>
+      <input type="text" id="first-name" name="first-name" required><br><br>
+    
+      <label for="last-name">Last Name*</label><br>
+      <input type="text" id="last-name" name="last-name" required><br><br>
+    
+      <label for="email">Email Address*</label><br>
+      <input type="email" id="email" name="email" required><br><br>
+    
+      <label for="subscribe">
+        <span>Subscribe to Email Notifications</span>
+        <input type="checkbox" id="subscribe" name="subscribe">
+      </label><br><br>
+    
+      <label for="opinion">What Can We Improve On?</label><br>
+      <textarea id="opinion" name="opinion" rows="8" cols="40"></textarea><br><br>
+    
+      <input type="submit" value="Submit">
+    </form>
   
-    <label for="first-name">First Name*</label><br> <!-- Prompt for the first name -->
-    <input type="text" id="first-name" name="first-name" required><br><br> <!-- Input field for the first name -->
+    <!-- Location Form -->
+    <form action="/submit" method="post" class="location-form">
+      <h1>Found a Spot? Let Us Know!</h1>
     
-    <label for="last-name">Last Name*</label><br> <!-- Prompt for the last name -->
-    <input type="text" id="last-name" name="last-name" required><br><br> <!-- Input field for the last name -->
+      <label for="location-name">Location Name*</label>
+      <input type="text" id="location-name" name="location-name" required><br>
     
-    <label for="email">Email Address*</label><br> <!-- Prompt for the email address -->
-    <input type="email" id="email" name="email" required><br><br> <!-- Input field for the email address -->
+      <label for="location-address">Location Address*</label>
+      <input type="text" id="location-address" name="location-address" required><br>
     
-    <label for="subscribe">
-      <span>Subscribe to Email Notifications</span> <!-- Prompt for subscribing to email notifications -->
-      <input type="checkbox" id="subscribe" name="subscribe"> <!-- Checkbox for subscribing to email notifications -->
-    </label><br><br>
+      <label for="coordinates">Coordinates (Optional)</label>
+      <input type="text" id="coordinates" name="coordinates"><br>
     
-    <label for="opinion">What Can We Improve On?</label><br> <!-- Prompt for feedback or suggestions -->
-    <textarea id="opinion" name="opinion" rows="8" cols="40"></textarea><br><br> <!-- Text area for feedback or suggestions -->
+      <label for="rating">Rating (Out of 10)</label>
+      <input type="number" id="rating" name="rating" min="0" max="10"><br>
     
-    <input type="submit" value="Submit"> <!-- Submit button to submit the form -->
-  </form>
-    <style>
-      .location-form {
-    display: flex;
-      flex-direction: column;
-      align-items: center;
-      border: 1px solid #ccc; /* Add a border to the form */
-      padding: 20px; /* Add padding inside the form */
-      border-radius: 5px; /* Add rounded corners to the form */
-      font-family: 'Quicksand', sans-serif; /* Set the font family for the form */
-      background-color: #fff; /* Set the background color inside the form */
-      max-width: 400px; /* Set the maximum width of the form */
-      width: 100%; /* Set the width to 100% of the available space */
-    }
+      <label for="image">Attach an Image (Optional)</label>
+      <input type="file" id="image" name="image"><br>
+    
+      <input type="submit" value="Submit">
+    </form>
   
-  
-    .location-form label {
-      text-align: left; /* Align labels to the left */
-      margin-bottom: 10px; /* Add space between labels and inputs */
-    }
-
-    .location-form h1 {
-    text-align: center; /* Center-align the form title */
-    }
-  
-    .location-form input[type="text"],
-    .location-form input[type="number"],
-    .location-form input[type="file"] {
-      width: 300px; /* Set the width of the textboxes */
-      margin-bottom: 10px; /* Add space between inputs */
-    }
-  </style>
-  
-  <form action="/submit" method="post" class="location-form">
-    <h1>Found a Spot? Let Us Know!</h1>
-  
-    <label for="location-name">Location Name*</label>
-    <input type="text" id="location-name" name="location-name" required><br>
-    
-    <label for="location-address">Location Address*</label>
-    <input type="text" id="location-address" name="location-address" required><br>
-    
-    <label for="coordinates">Coordinates (Optional)</label>
-    <input type="text" id="coordinates" name="coordinates"><br>
-    
-    <label for="rating">Rating (Out of 10)</label>
-    <input type="number" id="rating" name="rating" min="0" max="10"><br>
-    
-    <label for="image">Attach an Image (Optional)</label>
-    <input type="file" id="image" name="image"><br>
-    
-    <input type="submit" value="Submit">
-  </form>
-    </style>
   </div>
   
-  <!-- Footer <footer class="footer">
-    <a href="#" class="chat-icon"><i class="comments"></i></a>
-  </footer> -->
+  
+  <script src="https://unpkg.com/leaflet/dist/
+
+
   
 </body>
 </html>
